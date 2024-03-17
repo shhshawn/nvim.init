@@ -3,6 +3,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.showmode = true
 vim.opt.showcmd = true
+vim.opt.wildmode = 'longest:full,full'
 vim.opt.splitright = true
 -- vim.opt.splitbelow = true
 
@@ -31,11 +32,20 @@ vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.opt.foldenable = false
 vim.opt.foldlevelstart = 99
 
-vim.cmd([[
+-- local group = vim.api.nvim_create_augroup("Markdown Wrap Settings", { clear = true })
+vim.api.nvim_create_autocmd('BufEnter', {
+  pattern = {'*.md', '*.txt'},
+  -- group = group,
+  command = 'setlocal wrap'
+})
+
+--[[
+vim.cmd[[
     let &shell = executable('pwsh') ? 'pwsh' : 'powershell'
     let &shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new();$PSDefaultParameterValues[''Out-File:Encoding'']=''utf8'';'
     let &shellredir = '2>&1 | %%{ "$_" } | Out-File %s; exit $LastExitCode'
     let &shellpipe  = '2>&1 | %%{ "$_" } | Tee-Object %s; exit $LastExitCode'
     set shellquote= shellxquote=
-]])
+]]
+--]]
 

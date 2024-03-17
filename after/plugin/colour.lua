@@ -38,7 +38,7 @@ require('rose-pine').setup({
 	-- Change specific vim highlight groups
 	highlight_groups = {
 		ColorColumn = { bg = 'rose' },
-		CursorLine = { bg = 'foam', blend = 5 },
+		CursorLine = { bg = 'foam', blend = 8 },
 		StatusLine = { fg = 'foam', bg = 'foam', blend = 10 },
         StatusLineNC = { fg = 'subtle', bg = 'surface', blend = 10 },
         -- TelescopeBorder = { fg = 'foam' },

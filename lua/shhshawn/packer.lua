@@ -8,7 +8,7 @@ return require('packer').startup({function(use)
     use 'wbthomason/packer.nvim'
 
     use {
-        'nvim-telescope/telescope.nvim', tag = '0.1.1',
+        'nvim-telescope/telescope.nvim', tag = '0.1.4',
         requires = {
             {
                 'nvim-lua/plenary.nvim',
@@ -17,7 +17,7 @@ return require('packer').startup({function(use)
         }
     }
     use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
-    use('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
+    use{'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
     use('nvim-treesitter/playground')
     use('nvim-treesitter/nvim-treesitter-context')
     use({
@@ -25,13 +25,14 @@ return require('packer').startup({function(use)
         after = "nvim-treesitter",
         requires = "nvim-treesitter/nvim-treesitter",
     })
-    use('lukas-reineke/indent-blankline.nvim')
+    -- use('lukas-reineke/indent-blankline.nvim')
+    use{'lukas-reineke/indent-blankline.nvim', tag = "v2.20.8"}
     use({'rose-pine/neovim', as = 'rose-pine',})
     use('numToStr/Comment.nvim')
     use('mbbill/undotree')
     use('tpope/vim-fugitive')
     use('lewis6991/gitsigns.nvim')
-    use('lewis6991/satellite.nvim')
+    --use('lewis6991/satellite.nvim') --only supported for 0.10 above
     use { 'nvim-tree/nvim-tree.lua', requires = {'nvim-tree/nvim-web-devicons',}, }
 
     use({
@@ -80,9 +81,11 @@ return require('packer').startup({function(use)
         }
     }
 
-    use {"akinsho/toggleterm.nvim", tag = '*', config = function()
-        require("toggleterm").setup()
-    end}
+    use ({"akinsho/toggleterm.nvim", tag = '*', event = 'ColorScheme',
+    config = function()
+        local highlights = require('rose-pine.plugins.toggleterm')
+        require("toggleterm").setup({ highlights = highlights })
+    end})
 
 end,
 config = {

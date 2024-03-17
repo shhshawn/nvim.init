@@ -15,5 +15,7 @@ require('gitsigns').setup {
         map('n', '<leader>gl', gs.preview_hunk)
         map('n', '<leader>gn', gs.next_hunk)
         map('n', '<leader>gp', gs.prev_hunk)
+        map('n', '<leader>gj', gs.next_hunk)
+        map('n', '<leader>gk', gs.prev_hunk)
     end
 }
