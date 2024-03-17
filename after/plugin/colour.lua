@@ -39,7 +39,7 @@ require('rose-pine').setup({
 	highlight_groups = {
 		ColorColumn = { bg = 'rose' },
 		CursorLine = { bg = 'foam', blend = 8 },
-		StatusLine = { fg = 'foam', bg = 'foam', blend = 10 },
+		StatusLine = { fg = 'foam', bg = 'foam', blend = 15 },
         StatusLineNC = { fg = 'subtle', bg = 'surface', blend = 10 },
         -- TelescopeBorder = { fg = 'foam' },
 	}
