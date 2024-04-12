@@ -16,6 +16,16 @@ require'nvim-treesitter.configs'.setup {
     highlight = {
         enable = true,
 
+        -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+        disable = function(lang, buf)
+            local max_filesize = 200 * 1024 -- 500 KB
+            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+            if ok and stats and stats.size > max_filesize then
+                vim.cmd("set syntax=off")
+                return true
+            end
+        end,
+
         -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
         -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
         -- Using this option may slow down your editor, and you may see some duplicate highlights.
@@ -31,8 +41,10 @@ require'nvim-treesitter.configs'.setup {
             keymaps = {
                 ["af"] = "@function.outer",
                 ["if"] = "@function.inner",
-                ["ac"] = "@class.outer",
-                ["ic"] = "@class.inner",
+                ["as"] = "@class.outer",
+                ["is"] = "@class.inner",
+                ["ac"] = "@comment.outer",
+                ["ic"] = "@comment.inner",
                 ["al"] = "@loop.outer",
                 ["il"] = "@loop.inner",
                 ["ai"] = "@conditional.outer",
@@ -52,9 +64,14 @@ require'nvim-treesitter.configs'.setup {
             -- and should return the mode ('v', 'V', or '<c-v>') or a table
             -- mapping query_strings to modes.
             selection_modes = {
-                ['@parameter.outer'] = 'v', -- charwise
-                ['@function.outer'] = 'V', -- linewise
-                ['@class.outer'] = '<c-v>', -- blockwise
+                -- linewise
+                ['@function.outer'] = 'V',
+                ['@class.outer'] = 'V',
+                ['@comment.outer'] = 'V',
+                ['@loop.outer'] = 'V',
+                ['@conditional.outer'] = 'V',
+                -- ['@parameter.outer'] = 'v', -- charwise
+                -- ['@class.outer'] = '<c-v>', -- blockwise
             },
             -- If you set this to `true` (default is `false`) then any textobject is
             -- extended to include preceding or succeeding whitespace. Succeeding
@@ -65,32 +82,36 @@ require'nvim-treesitter.configs'.setup {
             -- * query_string: eg '@function.inner'
             -- * selection_mode: eg 'v'
             -- and should return true of false
-            include_surrounding_whitespace = true,
+            include_surrounding_whitespace = false,
         },
         move = {
             enable = true,
             set_jumps = true,
             goto_next_start = {
                 ["]f"] = "@function.outer",
-                ["]c"] = "@class.outer",
+                ["]s"] = "@class.outer",
+                ["]c"] = "@comment.outer",
                 ["]a"] = "@assignment.outer",
                 ["]d"] = "@block.outer",
             },
             goto_next_end = {
                 ["]F"] = "@function.outer",
-                ["]C"] = "@class.outer",
+                ["]S"] = "@class.outer",
+                ["]C"] = "@comment.outer",
                 ["]A"] = "@assignment.outer",
                 ["]D"] = "@block.outer",
             },
             goto_previous_start = {
                 ["[f"] = "@function.outer",
-                ["[c"] = "@class.outer",
+                ["[s"] = "@class.outer",
+                ["[c"] = "@comment.outer",
                 ["[a"] = "@assignment.outer",
                 ["[d"] = "@block.outer",
             },
             goto_previous_end = {
                 ["[F"] = "@function.outer",
-                ["[C"] = "@class.outer",
+                ["[S"] = "@class.outer",
+                ["[C"] = "@comment.outer",
                 ["[A"] = "@assignment.outer",
                 ["[D"] = "@block.outer",
             },

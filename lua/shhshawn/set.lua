@@ -10,6 +10,8 @@ vim.opt.splitright = true
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
 vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.wildignorecase = true
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 
@@ -18,7 +20,7 @@ vim.opt.smartindent = true
 vim.opt.smarttab = true
 vim.opt.wrap = false
 
-vim.opt.scrolloff = 8
+vim.opt.scrolloff = 10
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
@@ -27,16 +29,28 @@ vim.opt.expandtab = true
 vim.opt.undofile = true
 vim.opt.undodir = vim.fn.stdpath('state') .. '/undo'
 
+vim.opt.signcolumn = 'yes'
+
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.opt.foldenable = false
 vim.opt.foldlevelstart = 99
 
--- local group = vim.api.nvim_create_augroup("Markdown Wrap Settings", { clear = true })
 vim.api.nvim_create_autocmd('BufEnter', {
-  pattern = {'*.md', '*.txt'},
-  -- group = group,
-  command = 'setlocal wrap'
+    group = vim.api.nvim_create_augroup('file-wrap', { clear = true }),
+    pattern = {'*.md', '*.txt'},
+    command = 'setlocal wrap'
+})
+
+vim.api.nvim_create_autocmd('TextYankPost', {
+    group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
+    pattern = '*',
+    callback = function()
+        vim.highlight.on_yank({
+            higroup = 'IncSearch',
+            timeout = 40,
+        })
+    end,
 })
 
 --[[
