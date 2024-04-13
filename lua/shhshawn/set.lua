@@ -6,6 +6,7 @@ vim.opt.showcmd = true
 vim.opt.wildmode = 'longest:full,full'
 vim.opt.splitright = true
 -- vim.opt.splitbelow = true
+-- vim.diagnostic.config({ virtual_text = true })
 
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
