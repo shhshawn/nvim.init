@@ -58,12 +58,19 @@ return {
 
             -- Change specific vim highlight groups
             highlight_groups = {
-                ColorColumn = { bg = 'rose' },
+                -- ColorColumn = { bg = 'rose' },
+                Search = { bg = 'subtle' },
                 CursorLine = { bg = 'foam', blend = 10 },
                 StatusLine = { fg = 'foam', bg = 'foam', blend = 15 },
                 StatusLineNC = { fg = 'subtle', bg = 'surface', blend = 10 },
                 Comment = { fg = 'subtle' },
                 VertSplit = { fg = 'muted', bg = 'muted' },
+                TelescopeSelection = { fg = 'text', bg = 'foam', blend = 10 },
+                DiagnosticVirtualTextError = { bg = 'overlay'},
+                DiagnosticVirtualTextWarn = { bg = 'overlay'},
+                DiagnosticVirtualTextInfo = { bg = 'overlay'},
+                DiagnosticVirtualTextHint = { bg = 'overlay'},
+                LspSignatureActiveParameter = { bg = 'subtle', blend = 35 },
                 -- TelescopeBorder = { fg = 'foam' },
             },
             before_highlight = function(group, highlight, palette)
@@ -74,9 +81,6 @@ return {
                 -- Change palette colour
                 if highlight.fg == palette.pine then
                     highlight.fg = palette.foam
-                end
-                if highlight.bg == palette.text then
-                    highlight.bg = palette.subtle
                 end
             end,
         })

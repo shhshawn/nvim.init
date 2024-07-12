@@ -46,12 +46,17 @@ return {
                         preview_height = 0.5
                     }
                 },
-                --[[ mappings = {
+                preview = {
+                    filesize_limit = 5,
+                    timeout = 250,
+                },
+                mappings = {
                     n = {
-                        ['<C-D>'] = require('telescope.actions').preview_scrolling_right,
-                        ['<C-U>'] = require('telescope.actions').preview_scrolling_left,
+                        ['<leader>sp'] = require('telescope.actions.layout').toggle_preview,
+                        -- ['<C-D>'] = require('telescope.actions').preview_scrolling_right,
+                        -- ['<C-U>'] = require('telescope.actions').preview_scrolling_left,
                     }
-                } ]]
+                }
             },
             pickers = {
                 find_files = {

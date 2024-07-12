@@ -1,28 +1,15 @@
 return {
     {
-        'nvim-treesitter/nvim-treesitter-context',
-        config = function()
-            vim.cmd [[highlight TreesitterContextLineNumber guifg=#9ccfd8]]
-            vim.cmd [[highlight TreesitterContextBottom guibg=#21202e gui=underline guisp=Grey]]
-            vim.cmd [[highlight TreesitterContext guibg=#21202e]]
-        end,
-    },
-    {
-        'nvim-treesitter/nvim-treesitter-textobjects',
-        dependencies = {
-            'nvim-treesitter/nvim-treesitter',
-        },
-    },
-    {
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
         config = function()
-            require'nvim-treesitter.configs'.setup {
+            local configs = require("nvim-treesitter.configs")
+            configs.setup ({
                 -- A list of parser names, or "all" (the four listed parsers should always be installed)
-                ensure_installed = { "javascript", "typescript", "c", "lua", "vim" },
+                -- ensure_installed = { "javascript", "typescript", "c", "lua", "vim" },
 
                 -- Install parsers synchronously (only applied to `ensure_installed`)
-                sync_install = false,
+                -- sync_install = false,
 
                 -- Automatically install missing parsers when entering buffer
                 -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
@@ -33,10 +20,11 @@ return {
 
                     -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
                     disable = function(lang, buf)
-                        local max_filesize = 200 * 1024 -- 500 KB
+                        local max_filesize = 100 * 1024 -- 100 KB
                         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
                         if ok and stats and stats.size > max_filesize then
                             vim.cmd("set syntax=off")
+                            vim.cmd("set syntax=clear")
                             return true
                         end
                     end,
@@ -47,6 +35,8 @@ return {
                     -- Instead of true it can also be a list of languages
                     additional_vim_regex_highlighting = false,
                 },
+
+                indent = { enable = true },
 
                 textobjects = {
                     select = {
@@ -140,8 +130,27 @@ return {
                         }
                     }
                 },
-            }
+            })
+
+            vim.opt.foldmethod = 'expr'
+            vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+            vim.opt.foldenable = false
+            vim.opt.foldlevelstart = 99
         end,
+    },
+    {
+        'nvim-treesitter/nvim-treesitter-context',
+        config = function()
+            vim.cmd [[highlight TreesitterContextLineNumber guifg=#9ccfd8]]
+            vim.cmd [[highlight TreesitterContextBottom guibg=#26233a gui=underline guisp=Grey]]
+            vim.cmd [[highlight TreesitterContext guibg=#26233a]]
+        end,
+    },
+    {
+        'nvim-treesitter/nvim-treesitter-textobjects',
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter',
+        },
     },
 }
 

@@ -6,7 +6,6 @@ vim.opt.showcmd = true
 vim.opt.wildmode = 'longest:full,full'
 vim.opt.splitright = true
 -- vim.opt.splitbelow = true
--- vim.diagnostic.config({ virtual_text = true })
 
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
@@ -15,6 +14,7 @@ vim.opt.smartcase = true
 vim.opt.wildignorecase = true
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
+-- vim.opt.colorcolumn = '120'
 
 vim.opt.showtabline = 2
 vim.opt.smartindent = true
@@ -32,11 +32,6 @@ vim.opt.undodir = vim.fn.stdpath('state') .. '/undo'
 
 vim.opt.signcolumn = 'yes'
 
-vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-vim.opt.foldenable = false
-vim.opt.foldlevelstart = 99
-
 vim.api.nvim_create_autocmd('BufEnter', {
     group = vim.api.nvim_create_augroup('file-wrap', { clear = true }),
     pattern = {'*.md', '*.txt'},
@@ -49,7 +44,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     callback = function()
         vim.highlight.on_yank({
             higroup = 'IncSearch',
-            timeout = 40,
+            timeout = 50,
         })
     end,
 })

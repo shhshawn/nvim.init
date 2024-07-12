@@ -24,7 +24,7 @@ vim.keymap.set("v", "<M-k>", ":m '<-2<CR>gv=gv")
 vim.keymap.set("n", "<M-j>", ":m .+1<CR>==")
 vim.keymap.set("n", "<M-k>", ":m .-2<CR>==")
 
-vim.keymap.set("i" , "<M-q>", "<Esc>")
+vim.keymap.set({"i", "x"}, "<M-i>", "<Esc>")
 vim.keymap.set("i" , "<M-h>", "<Home>")
 vim.keymap.set("i" , "<M-l>", "<End>")
 vim.keymap.set("i" , "<M-J>", "<Down>")
@@ -59,3 +59,66 @@ vim.keymap.set("n", "<M-S-PageUp>", ":tabm -1<CR>")
 vim.keymap.set("n", "<M-S-PageDown>", ":tabm +1<CR>")
 
 -- vim.keymap.set("c", "<C-j>", [[wildmenumode() ? "\<Down>\<Tab>" : "\<c-j>"]])
+
+
+-- lsp keybind
+vim.api.nvim_create_autocmd('LspAttach', {
+    group = vim.api.nvim_create_augroup('user_lsp_attach', {clear = true}),
+    callback = function(event)
+        local opts = {buffer = event.buf}
+
+        vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+        vim.keymap.set("n", "gr", function() vim.lsp.buf.references() end, opts)
+        vim.keymap.set("n", "gl", function() vim.diagnostic.open_float() end, opts)
+        vim.keymap.set("n", "<leader>li", function() vim.lsp.buf.hover() end, opts)
+        vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+        vim.keymap.set("n", "<leader>lr", function() vim.lsp.buf.rename() end, opts)
+        vim.keymap.set("n", "<leader>ln", function() vim.diagnostic.goto_next() end, opts)
+        vim.keymap.set("n", "<leader>lp", function() vim.diagnostic.goto_prev() end, opts)
+        vim.keymap.set("n", "<leader>lj", function() vim.diagnostic.goto_next() end, opts)
+        vim.keymap.set("n", "<leader>lk", function() vim.diagnostic.goto_prev() end, opts)
+        vim.keymap.set("n", "<leader>ld", function() vim.diagnostic.setloclist() end, opts)
+        vim.keymap.set("n", "<leader>lq", function() vim.diagnostic.setqflist() end, opts)
+        vim.keymap.set("n", "<leader>la", function() vim.lsp.buf.code_action() end, opts)
+        vim.keymap.set("n", "<leader>ls", function() vim.lsp.buf.workspace_symbol() end, opts)
+        vim.keymap.set("n", "<leader>lh", function() vim.lsp.buf.signature_help() end, opts)
+        vim.keymap.set("i", "<C-i>", function() vim.lsp.buf.signature_help() end, opts)
+        vim.keymap.set({ "n", "x" }, "<leader>lf", function() vim.lsp.buf.format({ async = true }) end, opts)
+        -- vim.keymap.set({ "n", "x" }, "=", function() vim.lsp.buf.format({ async = true }) end, opts)
+
+        -- lsp-signature
+        --[[ local bufnr = event.buf
+        local client = vim.lsp.get_client_by_id(event.data.client_id)
+        if vim.tbl_contains({ 'null-ls' }, client.name) then  -- blacklist lsp
+            return
+        end
+        require("lsp_signature").on_attach({
+            hint_enable = false,
+        }, bufnr) ]]
+    end,
+})
+
+vim.diagnostic.config({
+    virtual_text = true,
+    float = {
+        border = 'rounded',
+        source = 'always',
+    },
+    sign = {
+        error = 'E',
+        warn = 'W',
+        hint = 'H',
+        info = 'I'
+    },
+})
+
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+    vim.lsp.handlers.hover,
+    { border = 'rounded' }
+)
+
+vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
+    vim.lsp.handlers.signature_help,
+    { border = 'rounded' }
+)
+
