@@ -36,6 +36,8 @@ return {
                 hint = 'iris',
                 info = 'foam',
                 warn = 'gold',
+                note = "pine",
+                todo = "rose",
 
                 git_add = "foam",
                 git_change = "rose",

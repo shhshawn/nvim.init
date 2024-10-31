@@ -51,6 +51,9 @@ return {
                     timeout = 250,
                 },
                 mappings = {
+                    i = {
+                        ['<M-p>'] = require('telescope.actions.layout').toggle_preview,
+                    },
                     n = {
                         ['<leader>sp'] = require('telescope.actions.layout').toggle_preview,
                         -- ['<C-D>'] = require('telescope.actions').preview_scrolling_right,

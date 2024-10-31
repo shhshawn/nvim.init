@@ -30,6 +30,8 @@ vim.opt.expandtab = true
 vim.opt.undofile = true
 vim.opt.undodir = vim.fn.stdpath('state') .. '/undo'
 
+-- vim.lsp.set_log_level('off')
+
 vim.opt.signcolumn = 'yes'
 
 vim.api.nvim_create_autocmd('BufEnter', {
