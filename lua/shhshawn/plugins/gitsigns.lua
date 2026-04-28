@@ -5,7 +5,13 @@ return {
             signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
             numhl      = true, -- Toggle with `:Gitsigns toggle_numhl`
             linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
-
+            diff_opts = {
+                vertical = true,
+            },
+            preview_config = {
+                border = 'rounded',
+                relative = 'cursor',
+            },
             on_attach = function(bufnr)
                 local gitsigns = require('gitsigns')
 
@@ -33,7 +39,7 @@ return {
                 end) ]]
 
                 -- action
-                map('n', '<leader>gd', ':Gitsigns diffthis<CR><C-w>h')
+                map('n', '<leader>gd', gitsigns.diffthis)
                 map('n', '<leader>gl', gitsigns.preview_hunk)
                 map('n', '<leader>gn', gitsigns.next_hunk)
                 map('n', '<leader>gp', gitsigns.prev_hunk)

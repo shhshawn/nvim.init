@@ -14,7 +14,7 @@ vim.opt.smartcase = true
 vim.opt.wildignorecase = true
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
--- vim.opt.colorcolumn = '120'
+vim.opt.colorcolumn = '80'
 
 vim.opt.showtabline = 2
 vim.opt.smartindent = true
@@ -33,6 +33,11 @@ vim.opt.undodir = vim.fn.stdpath('state') .. '/undo'
 -- vim.lsp.set_log_level('off')
 
 vim.opt.signcolumn = 'yes'
+-- vim.opt.winborder = 'rounded'
+
+vim.g.python3_host_prog = '/home/shawn/.pyenv/versions/py3nvim/bin/python'
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_perl_provider = 0
 
 vim.api.nvim_create_autocmd('BufEnter', {
     group = vim.api.nvim_create_augroup('file-wrap', { clear = true }),
@@ -43,12 +48,9 @@ vim.api.nvim_create_autocmd('BufEnter', {
 vim.api.nvim_create_autocmd('TextYankPost', {
     group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
     pattern = '*',
-    callback = function()
-        vim.highlight.on_yank({
-            higroup = 'IncSearch',
-            timeout = 50,
-        })
-    end,
+    callback = function ()
+        vim.hl.on_yank()
+    end
 })
 
 --[[

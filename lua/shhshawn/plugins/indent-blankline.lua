@@ -1,7 +1,34 @@
 return {
     'lukas-reineke/indent-blankline.nvim',
-    tag = 'v2.20.8',
-    config = function()
+    -- tag = 'v2.20.8',
+    main = 'ibl',
+    opts = {},
+    config = function ()
+        require('ibl').setup {
+            indent = {
+                char = '▏'
+            },
+            whitespace = {
+                remove_blankline_trail = true
+            },
+            scope = {
+                enabled = true,
+                show_start = true,
+                show_end = false,
+                include = {
+                    node_type = {
+                        ['*'] = {
+                            'return_statement',
+                            'table_constructor',
+                            'if_statement',
+                            'for_statement',
+                        }
+                    },
+                },
+            }
+        }
+    end,
+    --[[ config = function()
         require('indent_blankline').setup {
             show_trailing_blankline_indent = true,
             show_current_context = true,
@@ -11,43 +38,5 @@ return {
 
         -- set colorscheme (for some reason need to run this command again)
         -- vim.cmd('colorscheme rose-pine')
-    end,
+    end, ]]
 }
-
--- vim.opt.list = true
-
--- local highlight = { "indentBlue" }
---
--- local hooks = require "ibl.hooks"
---
--- hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
---     vim.api.nvim_set_hl(0, "indentBlue", { fg = "#9CCFD8" })
--- end)
---
--- require("ibl").setup {
---     indent= {
---         -- char = "▏",
---         char = "│",
---         smart_indent_cap = true,
---     },
---     whitespace = {
---         remove_blankline_trail = false,
---     },
---     scope = {
---         enabled = true,
---         show_start = true,
---         show_end = false,
---         injected_languages = true,
---         -- highlight = {"Function", "Label", "Statement", "Conditional", "Repeat", "Exception" },
---         highlight = highlight,
---         include = {
---             -- node_type = { ["*"] = { "*" } },
---             node_type = {
---                 lua = { "return_statement", "table_constructor" },
---                 python = {"if_statement", "try_statement", "for_statement"},
---             },
---         },
---         show_exact_scope = false,
---     },
--- }
-

@@ -2,8 +2,8 @@ return {
     'neovim/nvim-lspconfig',
     dependencies = {
         -- LSP Support
-        'williamboman/mason.nvim',           -- Optional
-        'williamboman/mason-lspconfig.nvim', -- Optional
+        'mason-org/mason.nvim',
+        'mason-org/mason-lspconfig.nvim',
 
         -- Autocompletion
         'hrsh7th/nvim-cmp',         -- Required
@@ -20,38 +20,30 @@ return {
         'onsails/lspkind.nvim'
     },
     config = function()
-        local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+        local cmp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+        local lsp_capabilities = vim.tbl_deep_extend('force', vim.lsp.protocol.make_client_capabilities(), cmp_capabilities)
 
-        require('mason').setup({})
-        require('mason-lspconfig').setup({
-            -- ensure_installed = {'tsserver',},
-            handlers = {
-                function(server_name)
-                    require('lspconfig')[server_name].setup({
-                        capabilities = lsp_capabilities,
-                    })
-                end,
-                lua_ls = function()
-                    require('lspconfig').lua_ls.setup({
-                        capabilities = lsp_capabilities,
-                        settings = {
-                            Lua = {
-                                runtime = {
-                                    version = 'LuaJIT'
-                                },
-                                diagnostics = {
-                                    globals = {'vim'},
-                                },
-                                workspace = {
-                                    library = {
-                                        vim.env.VIMRUNTIME,
-                                    }
-                                }
-                            }
-                        }
-                    })
-                end,
+        vim.lsp.config('*', {
+            capabilities = lsp_capabilities
+        })
+
+        vim.lsp.config.lua_ls = {
+            settings = {
+                runtime = {
+                    version = 'LuaJIT',
+                },
+                Lua = {
+                    diagnostics = {
+                        globals = {'vim'}
+                    }
+                }
             }
+        }
+
+        require('mason').setup({ui = {border = 'rounded'}})
+        require('mason-lspconfig').setup({
+            automatic_enable = true
+            -- ensure_installed = {'tsserver',},
         })
 
         local cmp = require('cmp')
@@ -110,6 +102,13 @@ return {
                         cmp.abort()
                     else
                         cmp.complete()
+                    end
+                end,
+                ['<C-g>'] = function()
+                    if cmp.visible_docs() then
+                        cmp.close_docs()
+                    else
+                        cmp.open_docs()
                     end
                 end,
             }),

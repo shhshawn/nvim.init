@@ -12,7 +12,7 @@ vim.keymap.set("n", "<leader>fk", "zk")
 vim.keymap.set("n", "gp", "`[v`]")
 vim.keymap.set({"n", "v"}, "x", [["_x]])
 vim.keymap.set("x", "<M-p>", [["_dP]])
-vim.keymap.set("n", "<M-p>", [["0p]])
+vim.keymap.set("n", "<M-p>", [["*p]])
 vim.keymap.set("n", "<M-r>", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set("v", "<M-r>", [[:s/\(.*\)]])
 vim.keymap.set("n", "<M-f>", "*Nzz")
@@ -31,7 +31,7 @@ vim.keymap.set("i" , "<M-J>", "<Down>")
 vim.keymap.set("i" , "<M-K>", "<Up>")
 vim.keymap.set("i" , "<M-H>", "<Left>")
 vim.keymap.set("i" , "<M-L>", "<Right>")
-vim.keymap.set({"n", "v"}, "<M-h>", "_")
+vim.keymap.set({"n", "v"}, "<M-h>", "^")
 vim.keymap.set({"n", "v"}, "<M-l>", "$")
 vim.keymap.set({"n", "v"}, "<M-m>", "%")
 
@@ -70,19 +70,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
         vim.keymap.set("n", "gr", function() vim.lsp.buf.references() end, opts)
         vim.keymap.set("n", "gl", function() vim.diagnostic.open_float() end, opts)
-        vim.keymap.set("n", "<leader>li", function() vim.lsp.buf.hover() end, opts)
-        vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+        vim.keymap.set("n", "<leader>li", function() vim.lsp.buf.hover({border = 'rounded'}) end, opts)
+        vim.keymap.set("n", "K", function() vim.lsp.buf.hover({border = 'rounded'}) end, opts)
         vim.keymap.set("n", "<leader>lr", function() vim.lsp.buf.rename() end, opts)
-        vim.keymap.set("n", "<leader>ln", function() vim.diagnostic.goto_next() end, opts)
-        vim.keymap.set("n", "<leader>lp", function() vim.diagnostic.goto_prev() end, opts)
-        vim.keymap.set("n", "<leader>lj", function() vim.diagnostic.goto_next() end, opts)
-        vim.keymap.set("n", "<leader>lk", function() vim.diagnostic.goto_prev() end, opts)
+        vim.keymap.set("n", "<leader>ln", function() vim.diagnostic.jump({count=1, float=true}) end, opts)
+        vim.keymap.set("n", "<leader>lp", function() vim.diagnostic.jump({count=-1, float=true}) end, opts)
+        vim.keymap.set("n", "<leader>lj", function() vim.diagnostic.jump({count=1, float=true}) end, opts)
+        vim.keymap.set("n", "<leader>lk", function() vim.diagnostic.jump({count=-1, float=true}) end, opts)
         vim.keymap.set("n", "<leader>ld", function() vim.diagnostic.setloclist() end, opts)
         vim.keymap.set("n", "<leader>lq", function() vim.diagnostic.setqflist() end, opts)
         vim.keymap.set("n", "<leader>la", function() vim.lsp.buf.code_action() end, opts)
         vim.keymap.set("n", "<leader>ls", function() vim.lsp.buf.workspace_symbol() end, opts)
-        vim.keymap.set("n", "<leader>lh", function() vim.lsp.buf.signature_help() end, opts)
-        vim.keymap.set("i", "<C-i>", function() vim.lsp.buf.signature_help() end, opts)
+        vim.keymap.set("n", "<leader>lh", function() vim.lsp.buf.signature_help({border = 'rounded'}) end, opts)
+        vim.keymap.set("i", "<C-i>", function() vim.lsp.buf.signature_help({border = 'rounded'}) end, opts)
         vim.keymap.set({ "n", "x" }, "<leader>lf", function() vim.lsp.buf.format({ async = true }) end, opts)
         -- vim.keymap.set({ "n", "x" }, "=", function() vim.lsp.buf.format({ async = true }) end, opts)
 
@@ -112,7 +112,7 @@ vim.diagnostic.config({
     },
 })
 
-vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+--[[ vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
     vim.lsp.handlers.hover,
     { border = 'rounded' }
 )
@@ -120,5 +120,5 @@ vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
 vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
     vim.lsp.handlers.signature_help,
     { border = 'rounded' }
-)
+) ]]
 
